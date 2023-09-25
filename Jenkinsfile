@@ -1,6 +1,6 @@
 pipeline{
     agent{
-        label "node"
+        label "buildin-node"
     }
     tools {
         jdk "Java17"
