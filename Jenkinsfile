@@ -1,6 +1,6 @@
 pipeline{
     agent{
-        docker { image 'node:18.18.0-alpine3.18' }
+        label "Jenkins-agent"
     }
     tools {
         jdk "Java17"
@@ -15,7 +15,7 @@ pipeline{
     
         stage("Checkout from SCM"){
             steps{
-                git branch: "main", credentialsId: "github", url: "https://github.com/OkanHollander/complete-prodcution-e2e-pipeline.git"
+                git branch: "main", credentialsId: "GitHub-credentials", url: "https://github.com/OkanHollander/complete-prodcution-e2e-pipeline.git"
             }
         }
 
