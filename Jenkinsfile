@@ -1,33 +1,18 @@
-pipeline{
-    agent{
-        label "buildin-node"
-    }
-    tools {
-        jdk "Java17"
-        maven "Maven3"
-    }
-    stages{
-        stage("Cleanup Workspace"){
-            steps{
-                cleanWs()
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            agent {
+                docker {
+                    image 'gradle:8.2.0-jdk17-alpine'
+                    // Run the container on the node specified at the
+                    // top-level of the Pipeline, in the same workspace,
+                    // rather than on a new node entirely:
+                    reuseNode true
+                }
             }
-        }
-    
-        stage("Checkout from SCM"){
-            steps{
-                git branch: "main", credentialsId: "github", url: "https://github.com/OkanHollander/complete-prodcution-e2e-pipeline.git"
-            }
-        }
-
-        stage("Build Application"){
-            steps{
-                sh "mvn clean package"
-            }
-        }
-        
-        stage("Test Application"){
-            steps{
-                sh "mvn test"
+            steps {
+                sh 'gradle --version'
             }
         }
     }
